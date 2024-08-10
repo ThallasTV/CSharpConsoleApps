@@ -1,4 +1,5 @@
-﻿using static System.Console;
+﻿using System.Text.RegularExpressions;
+using static System.Console;
 
 class Calculator
 {
@@ -18,7 +19,7 @@ class Calculator
                 result = a * b;
                 break;
             case "4":
-                if(b != 0)
+                if (b != 0)
                     result = a / b;
                 break;
             default:
@@ -33,15 +34,40 @@ class Program
 {
     static void Main(string[] args)
     {
-        double firstValue = 0;
-        double secondValue = 0;
+        string? firstValue = "";
+        string? secondValue = "";
         double result = 0;
+        double dFirstValue;
+        double dSecondValue;
+
 
         WriteLine("Please input your first value:");
-        firstValue = Convert.ToDouble(ReadLine());
+        firstValue = ReadLine();
+
+        while (!double.TryParse(firstValue, out dFirstValue))
+        {
+            WriteLine("Your input was not a numerical value");
+            firstValue = ReadLine();
+        }
+
+        while (!Regex.IsMatch(firstValue, @"\w{0-100}"))
+        {
+            WriteLine("Value out of bounds.");
+            firstValue = ReadLine();
+        }
+
+
+
+
 
         WriteLine("Please input your second value:");
-        secondValue = Convert.ToDouble(ReadLine());
+        secondValue = ReadLine();
+
+        while (!double.TryParse(secondValue, out dSecondValue))
+        {
+            WriteLine("Your input was not a numerical value");
+            secondValue = ReadLine();
+        }
 
         WriteLine("Please select from the following options: ");
         WriteLine("\t1 - Addition");
@@ -51,13 +77,13 @@ class Program
 
         string? operation = ReadLine();
 
-        result = Calculator.CompleteOperation(firstValue, secondValue, operation);
+        //result = Calculator.CompleteOperation(firstValue, secondValue, operation);
 
         WriteLine("Result: " + result);
 
         return;
 
-        
+
 
 
     }
